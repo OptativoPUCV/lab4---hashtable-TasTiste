@@ -91,9 +91,26 @@ HashMap * createMap(long capacity) {
     mapa->buckets = (Pair**) calloc(capacity,sizeof(Pair*));
     return mapa;
 }
+
 void eraseMap(HashMap * map,  char * key) {    
+    long indice = hash(key, map->capacity);
+    long primero = indice;
 
+    while(1){
+        Pair *actual = map->buckets[indice];
+        if (actual == NULL) return;
 
+        if (strcmp(actual->key,key) == 0){
+            actual->key = NULL;
+            map->size --;
+            return;
+        }
+
+        indice = (indice + 1) % map->capacity;
+
+        if(indice == primero) return;
+    }
+    return;
 }
 
 Pair * searchMap(HashMap * map,  char * key) {   
