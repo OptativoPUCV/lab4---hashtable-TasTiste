@@ -134,11 +134,34 @@ Pair * searchMap(HashMap * map,  char * key) {
 }
 
 Pair * firstMap(HashMap * map) {
+    long indice = 0;
+    long primero = indice;
+    Pair *actual = map->buckets[indice];
 
-    return NULL;
+    while(1){
+        actual = map->buckets[indice];
+        
+        if (actual != NULL && actual->key != NULL) break;
+
+        indice = (indice + 1) % map->capacity;
+        if(indice == primero) return NULL;
+    }
+    map->current = indice;
+    return actual;
 }
 
 Pair * nextMap(HashMap * map) {
+    long indice = map->current + 1;
+    Pair *actual = map->buckets[indice];
 
-    return NULL;
+    while(1){
+        actual = map->buckets[indice];
+        
+        if (actual != NULL && actual->key != NULL) break;
+
+        indice++;
+        if(indice == map->capacity) return NULL;
+    }
+    map->current = indice;
+    return actual;
 }
