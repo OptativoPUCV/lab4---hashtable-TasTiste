@@ -114,8 +114,22 @@ void eraseMap(HashMap * map,  char * key) {
 }
 
 Pair * searchMap(HashMap * map,  char * key) {   
+    long indice = hash(key, map->capacity);
+    long primero = indice;
 
+    while(1){
+        Pair *actual = map->buckets[indice];
+        if (actual == NULL) return NULL;
 
+        if (strcmp(actual->key,key) == 0){
+            map->current = indice;
+            return actual;
+        }
+
+        indice = (indice + 1) % map->capacity;
+
+        if(indice == primero) return NULL;
+    }
     return NULL;
 }
 
